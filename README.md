@@ -1,109 +1,158 @@
-# 📊 TRADECOM — AI Powered Stock Analytics Platform
+# 📊 TRADECOM — AI-Powered Stock Analytics Platform
 
-🚀 **TRADECOM** is an interactive financial analytics dashboard built with **Python and Streamlit** that analyzes real-time stock market data and performs portfolio optimization using modern financial modeling techniques.
+![Python](https://img.shields.io/badge/Python-3.9-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red)
+![Machine Learning](https://img.shields.io/badge/Machine%20Learning-ScikitLearn-orange)
+![Data Analysis](https://img.shields.io/badge/Data%20Analysis-Pandas-green)
+![Visualization](https://img.shields.io/badge/Visualization-Plotly-purple)
+![Finance](https://img.shields.io/badge/Finance-Portfolio%20Analytics-black)
 
-It demonstrates **data analysis, machine learning, financial analytics, and interactive dashboard development**.
+🚀 **TRADECOM** is an interactive **AI-powered stock analytics dashboard** built using **Python, Streamlit, and real-time financial data**.
+
+It enables users to analyze stock performance, simulate investment portfolios, and explore financial insights using **quantitative finance techniques and machine learning models**.
+
+🔗 **Live Demo:**  
+https://tradecom.streamlit.app/
+
+🔗 **GitHub Repository:**  
+https://github.com/harsh1223-bit/TradeCom
 
 ---
 
-# 🌐 Live Demo
+# 📷 Dashboard Preview
 
-After deployment:
+## 📊 Market Overview
+![Market Overview](screenshots/market-overview.png)
 
-```
-https://your-app-name.streamlit.app
-```
+## 📈 Portfolio Analytics
+![Portfolio Analytics](screenshots/portfolio-analytics.png)
+
+## 🤖 AI Prediction
+![AI Prediction](screenshots/ai-prediction.png)
+
+## 📉 Technical Stock Analysis
+![Stock Analysis](screenshots/stock-analysis.png)
 
 ---
 
-# 🖥️ Features
+# 🚀 Key Features
 
-### 📊 Market Overview
+## 📊 Market Overview
 - Multi-stock price comparison
-- Correlation heatmap between assets
-- Market trend visualization
+- Interactive financial charts
+- Correlation heatmap between selected assets
+- Real-time financial data using Yahoo Finance API
 
-### 📈 Portfolio Analytics
+---
+
+## 📈 Portfolio Analytics
+Advanced portfolio evaluation tools including:
+
 - Portfolio return calculation
-- Risk (volatility) estimation
-- Sharpe ratio evaluation
+- Portfolio volatility analysis
+- Sharpe Ratio evaluation
 - Portfolio allocation visualization
 - Portfolio backtesting simulation
-- Interactive efficient frontier optimizer
-
-### 🤖 AI Stock Prediction
-- Machine learning based price trend prediction
-- Forecast next 60 days using Linear Regression
-- Visual comparison between historical and predicted price
-
-### 📉 Stock Analysis
-- Interactive candlestick charts
-- Moving averages (MA50 & MA200)
-- Trading volume visualization
+- Monte Carlo portfolio simulation
+- Interactive **Efficient Frontier optimizer**
 
 ---
 
-# 🧠 Financial Concepts Used
+## 🤖 AI-Driven Stock Prediction
+
+Machine learning model used for forecasting stock trends.
+
+Features include:
+
+- Linear Regression model for stock price prediction
+- 60-day future price forecast
+- Historical vs predicted price visualization
+- Interactive prediction charts
+
+---
+
+## 📉 Technical Stock Analysis
+
+Advanced charting tools including:
+
+- Candlestick charts
+- Moving averages (MA50 & MA200)
+- Trading volume visualization
+- Trend analysis
+
+---
+
+# 🧠 Quantitative Finance Techniques Used
 
 ### Expected Portfolio Return
 
-$$
-E(R_p)=\sum_{i=1}^{n} w_iE(R_i)
-$$
+```
+E(Rp) = Σ wi * E(Ri)
+```
 
 ### Portfolio Risk (Volatility)
 
-$$
-\sigma_p=\sqrt{w^T\Sigma w}
-$$
+```
+σp = √( wᵀ Σ w )
+```
 
-The dashboard calculates:
+Where:
 
-- Expected return
+- **w** = portfolio weights  
+- **Σ** = covariance matrix  
+- **R** = expected returns  
+
+The system evaluates:
+
+- Expected portfolio return
 - Portfolio volatility
 - Sharpe ratio
-- Optimal portfolio allocation
+- Optimal asset allocation
 
 ---
 
 # 🔬 Portfolio Simulation
 
-The dashboard uses **Monte Carlo simulation** to generate thousands of random portfolios and visualize the **Efficient Frontier**.
+The dashboard uses **Monte Carlo simulation** to generate thousands of possible portfolios.
 
-This helps investors identify the **optimal risk-return tradeoff**.
+This allows users to:
+
+- Visualize risk-return tradeoffs
+- Identify optimal portfolios
+- Simulate investment performance
 
 ---
 
 # 🧰 Tech Stack
 
-**Programming**
-- Python
+### Programming
+Python
 
-**Data Analysis**
-- Pandas
-- NumPy
+### Data Analysis
+Pandas  
+NumPy  
 
-**Machine Learning**
-- Scikit-learn
+### Machine Learning
+Scikit-learn  
 
-**Visualization**
-- Plotly
-- Streamlit
+### Visualization
+Plotly  
+Streamlit  
 
-**Financial Data API**
-- Yahoo Finance (`yfinance`)
+### Financial Data
+Yahoo Finance API (`yfinance`)
 
 ---
 
 # 📂 Project Structure
 
 ```
-TRADECOM
+TradeCom
 │
 ├── app.py
 ├── requirements.txt
 ├── README.md
-└── screenshots
+└── screenshots/
 ```
 
 ---
@@ -112,29 +161,29 @@ TRADECOM
 
 ### Clone the Repository
 
-```
-git clone https://github.com/YOUR_USERNAME/tradecom-dashboard.git
+```bash
+git clone https://github.com/harsh1223-bit/TradeCom.git
 ```
 
-### Navigate to the Project
+### Navigate to Project Folder
 
-```
-cd tradecom-dashboard
+```bash
+cd TradeCom
 ```
 
 ### Install Dependencies
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
 ### Run the Dashboard
 
-```
+```bash
 streamlit run app.py
 ```
 
-The application will run at:
+Open in browser:
 
 ```
 http://localhost:8501
@@ -142,46 +191,46 @@ http://localhost:8501
 
 ---
 
-# ☁️ Deployment (Streamlit Cloud)
+# ☁️ Deployment
 
-1. Push your project to GitHub  
-2. Go to
+The dashboard is deployed using **Streamlit Cloud**.
 
-```
-https://streamlit.io/cloud
-```
+Steps to deploy:
 
-3. Connect your repository  
+1. Push project to GitHub  
+2. Go to https://streamlit.io/cloud  
+3. Connect GitHub repository  
 4. Select `app.py`  
-5. Deploy
+5. Deploy  
 
-You will receive a **public shareable dashboard link**.
+Live version:
+
+https://tradecom.streamlit.app/
 
 ---
 
 # 📊 Skills Demonstrated
 
-This project demonstrates skills in:
+This project demonstrates expertise in:
 
-- Data analysis
-- Financial modeling
-- Machine learning
-- API integration
-- Interactive dashboards
-- Portfolio optimization
-- Time series visualization
+- Data Analysis
+- Financial Modeling
+- Machine Learning
+- Time Series Analysis
+- API Integration
+- Portfolio Optimization
+- Interactive Dashboard Development
 
-These are key skills for **Data Analyst, FinTech, and Quant roles**.
+These skills are relevant for **Data Analyst, FinTech, and Quantitative roles**.
 
 ---
 
 # 🚀 Future Improvements
 
-Planned upgrades include:
+Planned enhancements include:
 
 - LSTM deep learning price prediction
-- Options analytics dashboard
-- Real-time stock data streaming
+- Real-time market data streaming
 - Portfolio risk metrics (VaR / CVaR)
 - Cryptocurrency analytics
 - Automated trading strategy backtesting
@@ -192,17 +241,11 @@ Planned upgrades include:
 
 **Harsh Sharma**
 
-Backend Developer | Data Analytics Enthusiast | FinTech Projects
-
-Skills:
-- Python
-- Data Analysis
-- Machine Learning
-- Financial Analytics
-- Backend Development
+GitHub:  
+https://github.com/harsh1223-bit
 
 ---
 
-# ⭐ If You Like This Project
+# ⭐ Support
 
-Give the repository a **star ⭐ on GitHub**!
+If you like this project, consider giving the repository a **star ⭐ on GitHub!**
