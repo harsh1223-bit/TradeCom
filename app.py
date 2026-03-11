@@ -196,6 +196,51 @@ with tab2:
 
         st.plotly_chart(fig_pie, use_container_width=True)
 
+        st.subheader("Portfolio Backtesting")
+
+        initial_investment = 10000
+
+# Normalize price data
+        normalized_prices = data / data.iloc[0]
+
+# Apply portfolio weights
+        portfolio_values = normalized_prices.dot(weights)
+
+# Scale with investment
+        portfolio_values = portfolio_values * initial_investment
+
+        final_value = portfolio_values.iloc[-1]
+
+        total_return = ((final_value - initial_investment) / initial_investment) * 100
+
+        col1, col2 = st.columns(2)
+
+        col1.metric("Initial Investment", f"${initial_investment:,.0f}")
+        col2.metric("Final Portfolio Value", f"${final_value:,.0f}")
+
+        st.metric("Total Return", f"{total_return:.2f}%")
+
+# Plot portfolio growth
+
+        fig_backtest = go.Figure()
+
+        fig_backtest.add_trace(go.Scatter(
+        x=portfolio_values.index,
+        y=portfolio_values,
+        mode="lines",
+        name="Portfolio Value",
+        line=dict(color="lime", width=3)
+))
+
+        fig_backtest.update_layout(
+        template="plotly_dark",
+        title="Portfolio Value Over Time",
+        xaxis_title="Date",
+        yaxis_title="Portfolio Value ($)"
+)
+
+st.plotly_chart(fig_backtest, use_container_width=True)
+
 # ================= AI PREDICTION =================
 
 with tab3:
@@ -289,28 +334,26 @@ with tab4:
 
         st.subheader("Trading Volume")
 
-        volume_df = candles.reset_index()
+volume_df = candles.reset_index()
 
-        colors = np.where(volume_df["Close"] > volume_df["Open"], "green", "red")
+volume_df["Volume_M"] = volume_df["Volume"] / 1e6
 
-        fig_vol = go.Figure()
+colors = np.where(volume_df["Close"] > volume_df["Open"], "green", "red")
 
-        fig_vol.add_trace(go.Bar(
-            x=volume_df["Date"],
-            y=volume_df["Volume"],
-            marker_color=colors
-        ))
+fig_vol = go.Figure()
 
-        fig_vol.update_layout(
-            template="plotly_dark",
-            title="Trading Volume",
-            xaxis_title="Date",
-            yaxis_title="Volume",
-            height=300
-        )
+fig_vol.add_trace(go.Bar(
+    x=volume_df["Date"],
+    y=volume_df["Volume_M"],
+    marker_color=colors
+))
 
-        st.plotly_chart(fig_vol, use_container_width=True)
+fig_vol.update_layout(
+    template="plotly_dark",
+    title="Trading Volume (Millions)",
+    xaxis_title="Date",
+    yaxis_title="Volume (M)",
+    height=300
+)
 
-
-
-      
+st.plotly_chart(fig_vol, use_container_width=True)
