@@ -1,5 +1,7 @@
 # 📊 TRADECOM — AI-Powered Stock Analytics Platform
 
+🚀 Live Application → https://tradecom.streamlit.app/
+
 ![Python](https://img.shields.io/badge/Python-3.9-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red)
 ![Machine Learning](https://img.shields.io/badge/Machine%20Learning-ScikitLearn-orange)
