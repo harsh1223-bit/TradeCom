@@ -13,18 +13,12 @@ st.set_page_config(page_title="TRADECOM", layout="wide")
 
 st.markdown("""
 <style>
-.main {
-    background-color: #0E1117;
-}
-
-h1, h2, h3 {
-    color: white;
-}
-
+.main {background-color:#0E1117;}
+h1,h2,h3 {color:white;}
 .stMetric {
-    background-color: #1E222D;
-    padding: 15px;
-    border-radius: 10px;
+background-color:#1E222D;
+padding:15px;
+border-radius:10px;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -43,9 +37,9 @@ stocks = [
 ]
 
 selected_stocks = st.sidebar.multiselect(
-    "Select Stocks",
-    stocks,
-    default=["AAPL","MSFT","TSLA"]
+"Select Stocks",
+stocks,
+default=["AAPL","MSFT","TSLA"]
 )
 
 start_date = st.sidebar.date_input("Start Date", date(2020,1,1))
@@ -59,11 +53,11 @@ if len(selected_stocks) == 0:
 
 @st.cache_data
 def load_data(tickers):
-    return yf.download(tickers, start=start_date, end=end_date)["Close"]
+    return yf.download(tickers,start=start_date,end=end_date)["Close"]
 
 data = load_data(selected_stocks)
 
-if isinstance(data, pd.Series):
+if isinstance(data,pd.Series):
     data = data.to_frame()
 
 returns = data.pct_change().dropna()
@@ -73,7 +67,7 @@ risk = returns.std()*np.sqrt(252)
 
 # ---------------- TABS ----------------
 
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1,tab2,tab3,tab4 = st.tabs([
 "📊 Market Overview",
 "📈 Portfolio Analytics",
 "🤖 AI Prediction",
@@ -84,9 +78,10 @@ tab1, tab2, tab3, tab4 = st.tabs([
 
 with tab1:
 
-    col1, col2 = st.columns(2)
+    col1,col2 = st.columns(2)
 
     with col1:
+
         st.subheader("Stock Price Comparison")
 
         fig = go.Figure()
@@ -100,9 +95,10 @@ with tab1:
             ))
 
         fig.update_layout(template="plotly_dark")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig,use_container_width=True)
 
     with col2:
+
         st.subheader("Correlation Heatmap")
 
         corr = returns.corr()
@@ -114,7 +110,7 @@ with tab1:
             template="plotly_dark"
         )
 
-        st.plotly_chart(fig_corr, use_container_width=True)
+        st.plotly_chart(fig_corr,use_container_width=True)
 
 # ================= PORTFOLIO ANALYTICS =================
 
@@ -143,27 +139,24 @@ with tab2:
 
     sharpe_ratio=portfolio_return/portfolio_volatility
 
-    # KPI HEADER
+    col1,col2,col3,col4 = st.columns(4)
 
-    col1,col2,col3,col4=st.columns(4)
+    col1.metric("Stocks Selected",len(selected_stocks))
+    col2.metric("Portfolio Return",f"{portfolio_return*100:.2f}%")
+    col3.metric("Portfolio Risk",f"{portfolio_volatility*100:.2f}%")
+    col4.metric("Sharpe Ratio",f"{sharpe_ratio:.2f}")
 
-    col1.metric("Stocks Selected", len(selected_stocks))
-    col2.metric("Portfolio Return", f"{portfolio_return*100:.2f}%")
-    col3.metric("Portfolio Risk", f"{portfolio_volatility*100:.2f}%")
-    col4.metric("Sharpe Ratio", f"{sharpe_ratio:.2f}")
+    col1,col2 = st.columns(2)
 
-    # 2 COLUMN CHARTS
-
-    col1, col2 = st.columns(2)
-
+    # Risk vs Return
     with col1:
 
         st.subheader("Risk vs Return")
 
         risk_df = pd.DataFrame({
-            "Stock":annual_return.index,
-            "Return":annual_return.values,
-            "Risk":risk.values
+        "Stock":annual_return.index,
+        "Return":annual_return.values,
+        "Risk":risk.values
         })
 
         fig_rr = px.scatter(
@@ -175,15 +168,16 @@ with tab2:
             template="plotly_dark"
         )
 
-        st.plotly_chart(fig_rr, use_container_width=True)
+        st.plotly_chart(fig_rr,use_container_width=True)
 
+    # Portfolio Allocation
     with col2:
 
         st.subheader("Portfolio Allocation")
 
         portfolio_df = pd.DataFrame({
-            "Stock": selected_stocks,
-            "Weight": weights
+        "Stock":selected_stocks,
+        "Weight":weights
         })
 
         fig_pie = px.pie(
@@ -194,52 +188,49 @@ with tab2:
             template="plotly_dark"
         )
 
-        st.plotly_chart(fig_pie, use_container_width=True)
+        st.plotly_chart(fig_pie,use_container_width=True)
 
-        st.subheader("Portfolio Backtesting")
+    # -------- BACKTESTING --------
 
-        initial_investment = 10000
+    st.subheader("Portfolio Backtesting")
 
-# Normalize price data
-        normalized_prices = data / data.iloc[0]
+    initial_investment = 10000
 
-# Apply portfolio weights
-        portfolio_values = normalized_prices.dot(weights)
+    normalized_prices = data / data.iloc[0]
 
-# Scale with investment
-        portfolio_values = portfolio_values * initial_investment
+    portfolio_values = normalized_prices.dot(weights)
 
-        final_value = portfolio_values.iloc[-1]
+    portfolio_values = portfolio_values * initial_investment
 
-        total_return = ((final_value - initial_investment) / initial_investment) * 100
+    final_value = portfolio_values.iloc[-1]
 
-        col1, col2 = st.columns(2)
+    total_return = ((final_value - initial_investment)/initial_investment)*100
 
-        col1.metric("Initial Investment", f"${initial_investment:,.0f}")
-        col2.metric("Final Portfolio Value", f"${final_value:,.0f}")
+    col1,col2 = st.columns(2)
 
-        st.metric("Total Return", f"{total_return:.2f}%")
+    col1.metric("Initial Investment",f"${initial_investment:,.0f}")
+    col2.metric("Final Portfolio Value",f"${final_value:,.0f}")
 
-# Plot portfolio growth
+    st.metric("Total Return",f"{total_return:.2f}%")
 
-        fig_backtest = go.Figure()
+    fig_backtest = go.Figure()
 
-        fig_backtest.add_trace(go.Scatter(
+    fig_backtest.add_trace(go.Scatter(
         x=portfolio_values.index,
         y=portfolio_values,
         mode="lines",
         name="Portfolio Value",
-        line=dict(color="lime", width=3)
-))
+        line=dict(color="lime",width=3)
+    ))
 
-        fig_backtest.update_layout(
+    fig_backtest.update_layout(
         template="plotly_dark",
         title="Portfolio Value Over Time",
         xaxis_title="Date",
         yaxis_title="Portfolio Value ($)"
-)
+    )
 
-st.plotly_chart(fig_backtest, use_container_width=True)
+    st.plotly_chart(fig_backtest,use_container_width=True)
 
 # ================= AI PREDICTION =================
 
@@ -247,7 +238,7 @@ with tab3:
 
     st.subheader("AI Stock Trend Prediction")
 
-    ticker = st.selectbox("Select Stock", stocks)
+    ticker = st.selectbox("Select Stock",stocks)
 
     candles = yf.Ticker(ticker).history(start=start_date,end=end_date)
 
@@ -289,7 +280,7 @@ with tab3:
 
     fig_pred.update_layout(template="plotly_dark")
 
-    st.plotly_chart(fig_pred, use_container_width=True)
+    st.plotly_chart(fig_pred,use_container_width=True)
 
 # ================= STOCK ANALYSIS =================
 
@@ -303,8 +294,8 @@ with tab4:
 
     if not candles.empty:
 
-        candles["MA50"] = candles["Close"].rolling(50).mean()
-        candles["MA200"] = candles["Close"].rolling(200).mean()
+        candles["MA50"]=candles["Close"].rolling(50).mean()
+        candles["MA200"]=candles["Close"].rolling(200).mean()
 
         fig = go.Figure()
 
@@ -332,28 +323,34 @@ with tab4:
 
         st.plotly_chart(fig,use_container_width=True)
 
+        # -------- VOLUME --------
+
         st.subheader("Trading Volume")
 
-volume_df = candles.reset_index()
+        volume_df = candles.reset_index()
 
-volume_df["Volume_M"] = volume_df["Volume"] / 1e6
+        volume_df["Volume_M"] = volume_df["Volume"]/1e6
 
-colors = np.where(volume_df["Close"] > volume_df["Open"], "green", "red")
+        colors = np.where(
+            volume_df["Close"] > volume_df["Open"],
+            "green",
+            "red"
+        )
 
-fig_vol = go.Figure()
+        fig_vol = go.Figure()
 
-fig_vol.add_trace(go.Bar(
-    x=volume_df["Date"],
-    y=volume_df["Volume_M"],
-    marker_color=colors
-))
+        fig_vol.add_trace(go.Bar(
+            x=volume_df["Date"],
+            y=volume_df["Volume_M"],
+            marker_color=colors
+        ))
 
-fig_vol.update_layout(
-    template="plotly_dark",
-    title="Trading Volume (Millions)",
-    xaxis_title="Date",
-    yaxis_title="Volume (M)",
-    height=300
-)
+        fig_vol.update_layout(
+            template="plotly_dark",
+            title="Trading Volume (Millions)",
+            xaxis_title="Date",
+            yaxis_title="Volume (M)",
+            height=300
+        )
 
-st.plotly_chart(fig_vol, use_container_width=True)
+        st.plotly_chart(fig_vol,use_container_width=True)
