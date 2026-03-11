@@ -289,11 +289,26 @@ with tab4:
 
         st.subheader("Trading Volume")
 
-        fig_vol = px.bar(
-            candles,
-            x=candles.index,
-            y="Volume",
-            template="plotly_dark"
-        )
+        volume_df = candles.reset_index()
 
-        st.plotly_chart(fig_vol)
+colors = np.where(volume_df["Close"] > volume_df["Open"], "green", "red")
+
+fig_vol = go.Figure()
+
+fig_vol.add_trace(go.Bar(
+    x=volume_df["Date"],
+    y=volume_df["Volume"],
+    marker_color=colors
+))
+
+fig_vol.update_layout(
+    template="plotly_dark",
+    title="Trading Volume",
+    xaxis_title="Date",
+    yaxis_title="Volume",
+    height=400
+)
+
+st.plotly_chart(fig_vol, use_container_width=True)
+
+      
