@@ -291,24 +291,26 @@ with tab4:
 
         volume_df = candles.reset_index()
 
-colors = np.where(volume_df["Close"] > volume_df["Open"], "green", "red")
+        colors = np.where(volume_df["Close"] > volume_df["Open"], "green", "red")
 
-fig_vol = go.Figure()
+        fig_vol = go.Figure()
 
-fig_vol.add_trace(go.Bar(
-    x=volume_df["Date"],
-    y=volume_df["Volume"],
-    marker_color=colors
-))
+        fig_vol.add_trace(go.Bar(
+            x=volume_df["Date"],
+            y=volume_df["Volume"],
+            marker_color=colors
+        ))
 
-fig_vol.update_layout(
-    template="plotly_dark",
-    title="Trading Volume",
-    xaxis_title="Date",
-    yaxis_title="Volume",
-    height=300
-)
+        fig_vol.update_layout(
+            template="plotly_dark",
+            title="Trading Volume",
+            xaxis_title="Date",
+            yaxis_title="Volume",
+            height=300
+        )
 
-st.plotly_chart(fig_vol, use_container_width=True)
+        st.plotly_chart(fig_vol, use_container_width=True)
+
+
 
       
