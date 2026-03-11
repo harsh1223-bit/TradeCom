@@ -306,7 +306,7 @@ fig_vol.update_layout(
     title="Trading Volume",
     xaxis_title="Date",
     yaxis_title="Volume",
-    height=400
+    height=300
 )
 
 st.plotly_chart(fig_vol, use_container_width=True)
