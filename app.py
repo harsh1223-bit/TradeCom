@@ -13,13 +13,36 @@ st.set_page_config(page_title="TRADECOM", layout="wide")
 
 st.markdown("""
 <style>
-.main {background-color:#0E1117;}
-h1,h2,h3 {color:white;}
-.stMetric {
-background-color:#1E222D;
-padding:15px;
-border-radius:10px;
+
+/* Background */
+.stApp {
+    background-color: #0E1117;
+    color: #E6EDF3;
 }
+
+/* Metric cards */
+[data-testid="metric-container"] {
+    background-color: #161B22;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #30363D;
+}
+
+/* Slider color */
+.stSlider > div > div > div > div {
+    background-color: #3B82F6;
+}
+
+/* Titles */
+h1, h2, h3 {
+    color: #E6EDF3;
+}
+
+/* Chart container */
+.block-container {
+    padding-top: 2rem;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -86,16 +109,30 @@ with tab1:
 
         fig = go.Figure()
 
-        for stock in data.columns:
-            fig.add_trace(go.Scatter(
-                x=data.index,
-                y=data[stock],
-                mode="lines",
-                name=stock
-            ))
+        fig.add_trace(go.Scatter(
+            x=data.index,
+            y=data['Close'],
+            mode='lines',
+            name='Stock Price',
+            line=dict(color='#3B82F6', width=3)
+        ))
 
-        fig.update_layout(template="plotly_dark")
-        st.plotly_chart(fig,use_container_width=True)
+        fig.add_trace(go.Scatter(
+            x=future_dates,
+            y=predictions,
+            mode='lines',
+            name='Prediction',
+            line=dict(color='#FACC15', dash='dash', width=3)
+        ))
+
+        fig.update_layout(
+            template="plotly_dark",
+            paper_bgcolor="#0E1117",
+            plot_bgcolor="#0E1117",
+            font=dict(color="#E6EDF3")
+        )
+
+    st.plotly_chart(fig, use_container_width=True)
 
     with col2:
 
