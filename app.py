@@ -76,17 +76,20 @@ if len(selected_stocks) == 0:
 
 @st.cache_data
 def load_data(tickers):
-   data = yf.download(tickers,start=start_date,end=end_date)
+    data = yf.download(tickers, start=start_date, end=end_date)
 
-# Flatten columns
-   if isinstance(data.columns, pd.MultiIndex):
-    data.columns = data.columns.get_level_values(0)
+    if isinstance(data.columns, pd.MultiIndex):
+        data = data["Close"]
 
     return data
 
 data = load_data(selected_stocks)
 
-if isinstance(data,pd.Series):
+if data.empty:
+    st.error("No stock data found.")
+    st.stop()
+
+if isinstance(data, pd.Series):
     data = data.to_frame()
 
 returns = data.pct_change().dropna()
@@ -113,23 +116,15 @@ with tab1:
 
         st.subheader("Stock Price Comparison")
 
-    fig = go.Figure()
+        fig = go.Figure()
 
-    for stock in selected_stocks:
-        fig.add_trace(go.Scatter(
-        x=data.index,
-        y=data[stock],
-        mode='lines',
-        name=stock
-    ))
-
-        fig.add_trace(go.Scatter(
-            x=future_dates,
-            y=predictions,
-            mode='lines',
-            name='Prediction',
-            line=dict(color='#FACC15', dash='dash', width=3)
-        ))
+        for stock in selected_stocks:
+            fig.add_trace(go.Scatter(
+                x=data.index,
+                y=data[stock],
+                mode='lines',
+                name=stock
+            ))
 
         fig.update_layout(
             template="plotly_dark",
@@ -138,7 +133,7 @@ with tab1:
             font=dict(color="#E6EDF3")
         )
 
-    st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
 
     with col2:
 
@@ -365,8 +360,6 @@ with tab4:
         fig.update_layout(template="plotly_dark")
 
         st.plotly_chart(fig,use_container_width=True)
-
-        # -------- VOLUME --------
 
         st.subheader("Trading Volume")
 
