@@ -76,7 +76,13 @@ if len(selected_stocks) == 0:
 
 @st.cache_data
 def load_data(tickers):
-    return yf.download(tickers,start=start_date,end=end_date)["Close"]
+   data = yf.download(tickers,start=start_date,end=end_date)
+
+# Flatten columns
+   if isinstance(data.columns, pd.MultiIndex):
+    data.columns = data.columns.get_level_values(0)
+
+    return data
 
 data = load_data(selected_stocks)
 
@@ -107,15 +113,15 @@ with tab1:
 
         st.subheader("Stock Price Comparison")
 
-        fig = go.Figure()
+    fig = go.Figure()
 
+    for stock in selected_stocks:
         fig.add_trace(go.Scatter(
-            x=data.index,
-            y=data['Close'],
-            mode='lines',
-            name='Stock Price',
-            line=dict(color='#3B82F6', width=3)
-        ))
+        x=data.index,
+        y=data[stock],
+        mode='lines',
+        name=stock
+    ))
 
         fig.add_trace(go.Scatter(
             x=future_dates,
