@@ -28,7 +28,20 @@ st.markdown("""
     border: 1px solid #30363D;
 }
 
-/* Slider color */
+/* Metric label text */
+[data-testid="stMetricLabel"] {
+    color: #9CA3AF !important;
+    font-size: 16px;
+}
+
+/* Metric value text */
+[data-testid="stMetricValue"] {
+    color: #F9FAFB !important;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/* Slider */
 .stSlider > div > div > div > div {
     background-color: #3B82F6;
 }
@@ -36,11 +49,6 @@ st.markdown("""
 /* Titles */
 h1, h2, h3 {
     color: #E6EDF3;
-}
-
-/* Chart container */
-.block-container {
-    padding-top: 2rem;
 }
 
 </style>
